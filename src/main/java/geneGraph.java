@@ -5,8 +5,8 @@ import org.graphstream.algorithm.randomWalk.RandomWalk;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.implementations.MultiGraph;
 
-public class geneGraph {
-    public void TestRandomWalk() {
+public class GeneGraph{
+    public static void testRandomWalk() {
         MultiGraph graph = new MultiGraph("random walk");
         Generator gen   = new DorogovtsevMendesGenerator();
         RandomWalk rwalk = new RandomWalk();
@@ -14,7 +14,7 @@ public class geneGraph {
         // On génère 400 noeuds
         gen.addSink(graph);
         gen.begin();
-        for(int i=0; i<400; i++) {
+        for(int i=0; i<50; i++) {
             gen.nextEvents();
         }
         gen.end();
@@ -49,12 +49,14 @@ public class geneGraph {
 
         // We take a small screen-shot of the result.
         graph.addAttribute("ui.screenshot", "randomWalk.png");
+        //graph.display(); //test
     }
+
 
     /**
      * Update the edges with colors corresponding to entities passes.
      */
-    public void updateGraph(MultiGraph graph, RandomWalk rwalk) {
+    public static void updateGraph(MultiGraph graph, RandomWalk rwalk) {
         double mine = Double.MAX_VALUE;
         double maxe = Double.MIN_VALUE;
 
