@@ -5,6 +5,8 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
 
+import java.awt.*;
+
 public class ReseauSocial {
 
     private MultiGraph graph;
@@ -13,7 +15,7 @@ public class ReseauSocial {
     private static int nbNoeuds = 1000;
     protected static String styleSheet =
             "edge {"+
-                "	size: 2px;"+
+                "	size: 1px;"+
                 "	fill-color: red, yellow, green, #444;"+
                 "	fill-mode: dyn-plain;"+
                 "}"+

@@ -27,7 +27,7 @@ public class Gossip extends Thread{
         random.nextBytes(seed);
         //Get node randomly that will init gossip
         gossipNode = reseauSocial.getGraph().getNode(Math.abs(random.nextInt()%ReseauSocial.getNbNoeuds()));
-        gossipNode.setAttribute("ui.color", this.gossipColor);
+        gossipNode.setAttribute("ui.color", Color.RED);
         gossipNode.setAttribute("ui.label", "source");
     }
 
@@ -64,5 +64,9 @@ public class Gossip extends Thread{
 
     public ArrayList<Node> getNodeAlreadyCreatedAsAThreadList() {
         return nodeAlreadyCreatedAsAThreadList;
+    }
+
+    public ReseauSocial getReseauSocial() {
+        return reseauSocial;
     }
 }
