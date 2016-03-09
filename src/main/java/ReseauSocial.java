@@ -2,6 +2,7 @@ import org.graphstream.algorithm.generator.DorogovtsevMendesGenerator;
 import org.graphstream.algorithm.generator.Generator;
 import org.graphstream.algorithm.randomWalk.RandomWalk;
 import org.graphstream.graph.Edge;
+import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
 
 public class ReseauSocial {
@@ -9,7 +10,7 @@ public class ReseauSocial {
     private MultiGraph graph;
     private Generator gen;
     private RandomWalk rwalk;
-    private static int nbNoeuds = 50;
+    private static int nbNoeuds = 1000;
     protected static String styleSheet =
             "edge {"+
                 "	size: 2px;"+
@@ -17,8 +18,8 @@ public class ReseauSocial {
                 "	fill-mode: dyn-plain;"+
                 "}"+
             "node {"+
-                "	size: 6px;"+
-                "	fill-color: #444;"+
+                "   size-mode: dyn-size;"+
+                "   fill-mode: dyn-plain;"+
             "}";
 
     public ReseauSocial(MultiGraph graph, Generator gen, RandomWalk rwalk) {
@@ -48,18 +49,26 @@ public class ReseauSocial {
         rwalk.compute();
         rwalk.terminate();
 
-        // Update colors
-        updateGraph(graph, rwalk);
+        updateNodesSize();
+        updateColorEdges();
 
         // We take a small screen-shot of the result.
         graph.addAttribute("ui.screenshot", "randomWalk.png");
     }
 
+    /**
+     * Update nodes size depending on how much edges they have
+     */
+    private void updateNodesSize(){
+        for(Node node : graph.getEachNode()){
+            node.addAttribute("ui.size", 2*Math.sqrt(node.getEdgeSet().size())+4);
+        }
+    }
 
     /**
      * Update the edges with colors corresponding to entities passes.
      */
-    public static void updateGraph(MultiGraph graph, RandomWalk rwalk) {
+    private void updateColorEdges() {
         double mine = Double.MAX_VALUE;
         double maxe = Double.MIN_VALUE;
 
@@ -76,5 +85,17 @@ public class ReseauSocial {
             double color  = ((passes-mine)/(maxe-mine));
             edge.setAttribute("ui.color", color);
         }
+    }
+
+    public MultiGraph getGraph() {
+        return graph;
+    }
+
+    public RandomWalk getRwalk() {
+        return rwalk;
+    }
+
+    public static int getNbNoeuds() {
+        return nbNoeuds;
     }
 }
