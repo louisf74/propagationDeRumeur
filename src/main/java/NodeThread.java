@@ -10,6 +10,8 @@ public class NodeThread extends Thread {
     private Gossip gossip;
     private NodeState nodeState;
     private ArrayList<NodeThread> neighboursNodeThreadsList;
+    private static int lifeTime = 100;
+    private static int propagationSpeed = 100;
 
     public NodeThread(Node node, Gossip gossip, NodeState nodeState) {
         this.node = node;
@@ -38,12 +40,10 @@ public class NodeThread extends Thread {
             gossip.getNodeAlreadyCreatedAsAThreadList().add(currentNextNode);
             NodeThread currentNextNodeThread = new NodeThread(currentNextNode, gossip, NodeState.NOTHING);
             this.neighboursNodeThreadsList.add(currentNextNodeThread);
-            currentNextNodeThread.start();
         }
     }
 
     private void propagationIterations() {
-        int lifeTime = 100;
         for (int i=lifeTime; i > 0; i--) {
             propagation();
         }
@@ -53,7 +53,7 @@ public class NodeThread extends Thread {
         //Loop over neighboors
         for (NodeThread currentNextNodeThread : this.neighboursNodeThreadsList ){
             tryToPropagate(currentNextNodeThread);
-            sleep(1000);
+            sleep(propagationSpeed);
         }
     }
 
@@ -61,19 +61,18 @@ public class NodeThread extends Thread {
         if (this.getNodeState() == NodeState.PROPAGATE || this.getNodeState() == NodeState.SOURCE) {
             double probabilityAlterationByNodeSize = (this.getNode().getDegree() + Gossip.getPropagationChance()) / this.getNode().getDegree();
             TryToChangeNodeState(currentNextNodeThread, Gossip.getPropagationChance() * probabilityAlterationByNodeSize, NodeState.PROPAGATE, gossip.getGossipColor());
-            TryToChangeNodeState(currentNextNodeThread, Gossip.getSafeChance(), NodeState.SAFE, Color.GREEN);
+            TryToChangeNodeState(currentNextNodeThread, Gossip.getSafeChance() / probabilityAlterationByNodeSize, NodeState.SAFE, new Color(124,255,0));
         }
     }
 
     private void TryToChangeNodeState(NodeThread currentNextNodeThread, double probability, NodeState nodeState, Color color) {
         if (currentNextNodeThread.getNodeState() != NodeState.PROPAGATE && currentNextNodeThread.getNodeState() != NodeState.SAFE) {
-            int randInt;
-            randInt = Math.abs(Gossip.getRandom().nextInt());
-            System.out.println(randInt +" / " + probability*Integer.MAX_VALUE);
+            double randInt = Math.random();
             //If safe chance is obtained
-            if (randInt < Integer.MAX_VALUE * probability) {
+            if (randInt < probability) {
                 currentNextNodeThread.setNodeState(nodeState);
                 currentNextNodeThread.getNode().setAttribute("ui.color", color);
+                currentNextNodeThread.start();
             }
         }
     }

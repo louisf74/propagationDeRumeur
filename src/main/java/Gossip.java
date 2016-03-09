@@ -19,7 +19,7 @@ public class Gossip extends Thread{
         this.gossipColor = gossipColor;
         random = new SecureRandom();
         propagationChance = 0.5;
-        safeChance = 0.2;
+        safeChance = 0.1;
     }
 
     public void init(){
@@ -29,6 +29,7 @@ public class Gossip extends Thread{
         gossipNode = reseauSocial.getGraph().getNode(Math.abs(random.nextInt()%ReseauSocial.getNbNoeuds()));
         gossipNode.setAttribute("ui.color", Color.RED);
         gossipNode.setAttribute("ui.label", "source");
+
     }
 
     //New thread starting propagation

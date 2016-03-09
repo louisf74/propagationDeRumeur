@@ -12,7 +12,7 @@ public class ReseauSocial {
     private MultiGraph graph;
     private Generator gen;
     private RandomWalk rwalk;
-    private static int nbNoeuds = 1000;
+    private static int nbNoeuds = 5000;
     protected static String styleSheet =
             "edge {"+
                 "	size: 1px;"+
