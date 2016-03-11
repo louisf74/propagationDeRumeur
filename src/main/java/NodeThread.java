@@ -10,8 +10,8 @@ public class NodeThread extends Thread {
     private Gossip gossip;
     private NodeState nodeState;
     private ArrayList<NodeThread> neighboursNodeThreadsList;
-    private static int lifeTime = 100;
-    private static int propagationSpeed = 100;
+    private static int lifeTime;
+    private static int propagationSpeed;
 
     public NodeThread(Node node, Gossip gossip, NodeState nodeState) {
         this.node = node;
@@ -70,8 +70,18 @@ public class NodeThread extends Thread {
             double randInt = Math.random();
             //If safe chance is obtained
             if (randInt < probability) {
+                if ( currentNextNodeThread.getNode().getAttribute("ui.color") != null ) {
+                    int cpt = 0;
+                    for (Color c : Gossip.getColors()) {
+                        if (c.equals(currentNextNodeThread.getNode().getAttribute("ui.color"))){
+                            Gossip.getNbsConverted().set(cpt, Gossip.getNbsConverted().get(cpt)-1);
+                        }
+                        cpt++;
+                    }
+                }
                 currentNextNodeThread.setNodeState(nodeState);
                 currentNextNodeThread.getNode().setAttribute("ui.color", color);
+                Gossip.getNbsConverted().set(gossip.getGossipId(), Gossip.getNbsConverted().get(gossip.getGossipId())+1.0);
                 currentNextNodeThread.start();
             }
         }
@@ -95,5 +105,13 @@ public class NodeThread extends Thread {
 
     public NodeState getNodeState() {
         return nodeState;
+    }
+
+    public static void setLifeTime(int lifeTime) {
+        NodeThread.lifeTime = lifeTime;
+    }
+
+    public static void setPropagationSpeed(int propagationSpeed) {
+        NodeThread.propagationSpeed = propagationSpeed;
     }
 }

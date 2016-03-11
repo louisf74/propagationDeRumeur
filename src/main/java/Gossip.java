@@ -6,20 +6,27 @@ import java.util.ArrayList;
 
 public class Gossip extends Thread{
 
+    private int id;
     private ReseauSocial reseauSocial;
     private Color gossipColor;
     private Node gossipNode;
+    private ArrayList<Node> nodeAlreadyCreatedAsAThreadList;
+    private int nbNodesConverted;
     private static SecureRandom random;
     private static double propagationChance;
     private static double safeChance;
-    private ArrayList<Node> nodeAlreadyCreatedAsAThreadList;
+    private static int lifeTime;
+    private static int propagationSpeed;
+    private static ArrayList<Double> nbsConverted;
+    private static Color[] colors;
 
-    public Gossip(ReseauSocial reseauSocial, Color gossipColor) {
+    public Gossip(ReseauSocial reseauSocial, Color gossipColor, int id) {
+        this.id = id;
         this.reseauSocial = reseauSocial;
         this.gossipColor = gossipColor;
         random = new SecureRandom();
-        propagationChance = 0.5;
-        safeChance = 0.1;
+        NodeThread.setLifeTime(lifeTime);
+        NodeThread.setPropagationSpeed(propagationSpeed);
     }
 
     public void init(){
@@ -69,5 +76,49 @@ public class Gossip extends Thread{
 
     public ReseauSocial getReseauSocial() {
         return reseauSocial;
+    }
+
+    public int getNbNodesConverted() {
+        return nbNodesConverted;
+    }
+
+    public void incrementNbNodeConverted() {
+        this.nbNodesConverted++;
+    }
+
+    public static void setLifeTime(int lifeTime) {
+        Gossip.lifeTime = lifeTime;
+    }
+
+    public static void setPropagationSpeed(int propagationSpeed) {
+        Gossip.propagationSpeed = propagationSpeed;
+    }
+
+    public static void setPropagationChance(double propagationChance) {
+        Gossip.propagationChance = propagationChance;
+    }
+
+    public static void setSafeChance(double safeChance) {
+        Gossip.safeChance = safeChance;
+    }
+
+    public int getGossipId() {
+        return id;
+    }
+
+    public static ArrayList<Double> getNbsConverted() {
+        return nbsConverted;
+    }
+
+    public static void setNbsConverted(ArrayList<Double> nbsConverted) {
+        Gossip.nbsConverted = nbsConverted;
+    }
+
+    public static Color[] getColors() {
+        return colors;
+    }
+
+    public static void setColors(Color[] colors) {
+        Gossip.colors = colors;
     }
 }

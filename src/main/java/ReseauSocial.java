@@ -5,7 +5,9 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
 
+import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class ReseauSocial {
 
