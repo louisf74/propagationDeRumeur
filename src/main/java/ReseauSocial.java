@@ -14,7 +14,7 @@ public class ReseauSocial {
     private MultiGraph graph;
     private Generator gen;
     private RandomWalk rwalk;
-    private static int nbNoeuds = 5000;
+    private static int nbNoeuds;
     protected static String styleSheet =
             "edge {"+
                 "	size: 1px;"+
@@ -55,9 +55,6 @@ public class ReseauSocial {
 
         updateNodesSize();
         updateColorEdges();
-
-        // We take a small screen-shot of the result.
-        graph.addAttribute("ui.screenshot", "randomWalk.png");
     }
 
     /**
@@ -101,5 +98,9 @@ public class ReseauSocial {
 
     public static int getNbNoeuds() {
         return nbNoeuds;
+    }
+
+    public static void setNbNoeuds(int nbNoeuds) {
+        ReseauSocial.nbNoeuds = nbNoeuds;
     }
 }

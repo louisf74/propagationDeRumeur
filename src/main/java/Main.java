@@ -1,7 +1,6 @@
 import org.graphstream.algorithm.generator.DorogovtsevMendesGenerator;
 import org.graphstream.algorithm.randomWalk.RandomWalk;
 import org.graphstream.graph.implementations.MultiGraph;
-import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.ui.tabbedui.VerticalLayout;
 
 import javax.swing.*;
@@ -22,6 +21,8 @@ public class Main {
         Gossip.setColors(colors);
         String[] colorsStrings = {"Blue", "Yellow", "magenta", "cyan"};
         try {
+            System.out.println("Veuillez saisir le nombre de noeuds :");
+            ReseauSocial.setNbNoeuds(Integer.parseInt(bufferedReader.readLine()));
             System.out.println("Veuillez saisir le nombre de rumeurs à lancer (max 4)");
             do {
                 nbGossip = Integer.parseInt(bufferedReader.readLine());
@@ -43,7 +44,7 @@ public class Main {
         frame.getContentPane().setLayout(new VerticalLayout());
         ArrayList<Label> labels = new ArrayList<Label>();
         ArrayList<Double> nbs = new ArrayList<Double>();
-        for (Color c : colors){
+        for (int cpt=0; cpt < nbGossip; cpt++){
             labels.add(new Label());
             nbs.add(0.0);
         }
