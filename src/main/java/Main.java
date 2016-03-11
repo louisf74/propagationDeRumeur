@@ -9,6 +9,7 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class Main {
@@ -69,7 +70,9 @@ public class Main {
         while (true){
             int j = 0;
             for (Label l : labels){
-                l.setText((Gossip.getNbsConverted().get(j)/(double)reseauSocial.getGraph().getNodeCount())*100.0+"%");
+                DecimalFormat f = new DecimalFormat();
+                f.setMaximumFractionDigits(2);
+                l.setText(f.format((Gossip.getNbsConverted().get(j)/(double)reseauSocial.getGraph().getNodeCount())*100)+"%");
                 j++;
             }
         }
